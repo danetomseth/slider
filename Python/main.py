@@ -75,8 +75,6 @@ class KvmainApp(App):
         return self.manager
 
     def exit(self):
-        stepper.clean()
-        stepper.disconnect_ps()
         App.get_running_app().stop()
 
     def find_home(self, motor):

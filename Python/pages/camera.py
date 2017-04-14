@@ -159,14 +159,7 @@ class FocusScreen(Screen):
     def test_bulb(self):
         camera.bulb(self.bulb_time)
 
-    def connect(self):
-        stepper.connect_ps()      
-
-    def read(self):
-        stepper.read_ps()
-
-    def disconnect(self):
-        stepper.disconnect_ps()
+    
 
 class CameraControl(Screen):
     page_title = StringProperty('CAMERA CONTROL')
@@ -194,9 +187,6 @@ class CameraControl(Screen):
         # new_button.bind(on_press=self.mount_finished)
         # self.top_row.add_widget(new_button)
 
-    def mount_finished(self):
-        stepper.return_camera_home()
-        print("FINISHED")
 
     def config(self):
         options = self.camera.get_config(self.context)

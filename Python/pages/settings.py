@@ -41,10 +41,8 @@ class ControlTab(BoxLayout):
     page_title = StringProperty('CONTROL SETTINGS')
     def __init__(self, **kwargs):
         super(ControlTab, self).__init__(**kwargs)
-        self.delay = 0.01
 
-    def set_control_joystick(self):
-        stepper.set_control_joystick()
+    
 
     def connect_arduino(self):
         arduino.connect()
@@ -55,25 +53,13 @@ class ControlTab(BoxLayout):
     def send_number(self, data):
         arduino.send_number(data)
 
-
-    
-
     def test(self):
-        print("TESTING")
-        stepper.test_control_mode()
+        pass
 
     def calibrate(self):
+        # calibrate analog
         stepper.calibrate()
 
-    def test_signal(self):
-        stepper.accel_step(100, 0.0001)
-
-
-    def test_signal_all(self, time):
-        stepper.test_signal_all(time)
-
-    def test_signal_ramp(self):
-        stepper.test_signal_ramp()
         
 
 class CameraTab(BoxLayout):

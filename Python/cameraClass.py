@@ -1,4 +1,3 @@
-import RPi.GPIO as GPIO ## Import GPIO library
 from subprocess import call
 import time
 from datetime import datetime
@@ -97,9 +96,8 @@ class CameraObj(object):
         self.camera.trigger_capture(self.context)
 
     def remote_trigger(self):
-        GPIO.output(self.shutter_pin, True)
-        time.sleep(0.3)
-        GPIO.output(self.shutter_pin, False)
+        # Trigger Camera
+        pass
 
     def timelapse_picture(self):
         time.sleep(self.stable_delay)

@@ -69,16 +69,15 @@
     BoxLayout:
     	padding: 5
     	spacing: 5
-    	ToggleButton:
+    	Button:
     		text: "Connect ARD"
-    		group: 'controller'
     		on_press: root.connect_arduino()
 
-		ToggleButton:
-			text: "JOYSTICK"
-			group: 'controller'
-			state: "down"
-			on_press: root.set_control_joystick()
+		# ToggleButton:
+		# 	text: "JOYSTICK"
+		# 	group: 'controller'
+		# 	state: "down"
+		# 	on_press: root.set_control_joystick()
 	BoxLayout:
 		padding: 5
 		spacing: 5

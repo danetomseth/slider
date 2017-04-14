@@ -1,18 +1,27 @@
 import time
 
-import Adafruit_GPIO.SPI as SPI
-import Adafruit_MCP3008
 from triangula.input import SixAxis, SixAxisResource
 
 
-joystick = 0
+# def calibrate():
+#     string = 'CAL: %s CAL: %s CAL: %s'
+#     zero_vals = []
+#     for motor in all_motors:
+#         motor.set_zero()
+#         zero_vals.append(motor.name + " - " + str(motor.zero))
+#     print string % tuple(zero_vals)
 
 
-SPI_PORT   = 0
-SPI_DEVICE = 0
-mcp = Adafruit_MCP3008.MCP3008(spi=SPI.SpiDev(SPI_PORT, SPI_DEVICE))
 
-
+# def analog_read():
+#     read_values = []
+#     string = 'Slide: %s PAN: %s TILT %s'
+#     print("STARTING")
+#     while stop() == False:
+#         read_values = analog.read_all()
+#         print string % tuple(read_values)
+#         time.sleep(0.5)
+#     print("FINISHED")
 
 
 def connect_ps():

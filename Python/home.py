@@ -38,8 +38,6 @@ class E(ExceptionHandler):
     def handle_exception(self, inst):
         print("********EXCEPTION********")
         Logger.exception('CAUGHT EXCEPTION')
-        stepper.clean()
-        stepper.disconnect_ps()
         App.get_running_app().stop()
         return ExceptionManager.PASS
 
@@ -52,18 +50,5 @@ class HomeScreen(Screen):
         super(HomeScreen, self).__init__(**kwargs)
 
 
-    def enable_run(self):
-        # stepper.enable_run()
-        stepper.set_timelapse_end()
-
-    def increase_steps(self):
-        stepper.increase_steps()
-
-    def run_slide(self):
-        stepper.move_slide()
-
-
-    def test_func(self):
-        temp.temp_func()
 
 
