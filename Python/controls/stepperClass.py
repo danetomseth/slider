@@ -137,6 +137,7 @@ class MotorObj(object):
     def move(self, steps):
         for x in range(steps):
             # Move motor
+            pass
         self.disable()
 
 
@@ -144,6 +145,7 @@ class MotorObj(object):
         total_steps = int(distance / self.unit_per_step)
         for steps in range(total_steps):
             # Move distance
+            pass
 
     def set_step_count(self, distance):
         self.program_finished = False

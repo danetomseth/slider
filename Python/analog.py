@@ -1,6 +1,5 @@
 import time
 
-from triangula.input import SixAxis, SixAxisResource
 
 
 # def calibrate():
@@ -24,21 +23,11 @@ from triangula.input import SixAxis, SixAxisResource
 #     print("FINISHED")
 
 
-def connect_ps():
-    global joystick
-    try:
-        joystick = SixAxis()
-        print(joystick.connect())
-    except:
-        print("EXEC")
-        joystick.disconnect()
-    print("DONE")
 
-def disconnect():
-    joystick.disconnect()
 
-def check_bluetooth():
-    return joystick.is_connected()
+
+
+
 
 def read_controller(axis):
     time_range = 1000.0

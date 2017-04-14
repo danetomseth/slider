@@ -236,12 +236,15 @@ def reset_position():
             break
         elif x < motors[0].programmed_steps:
             # run all motors to lowest step value
+            pass
 
         elif x < motors[1].programmed_steps:
             #  run motors to 2nd lowest
+            pass
 
         else:
             # run final motor
+            pass
 
     for motor in motors:
         # switch direction
@@ -328,8 +331,10 @@ def pano_preview():
     tilt.set_direction(tilt_away)
     for x in range(pan.pano_programmed_steps):
         # Pan step
+        pass
     tilt.set_direction(tilt_away)
     for x in range(tilt.pano_programmed_steps):
+        pass
         # tilt step
     tilt.disable()
 

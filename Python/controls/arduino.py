@@ -33,4 +33,32 @@ def send_number(num):
     response = ser.readline()
     print(response)
 
+""" Timelapse Control Flow ----
+
+1) Live Control
+    a. Read 
+2) Single Axis
+    a. Read
+    1) X Axis
+    2) Y Axis
+    3) Z Axis
+
+3) Picture
+    a. Read
+
+4) Timelapse
+    a. Read
+    b. Send 1 (Set End)
+    c. Read
+    d. Send 2 (Set Start)
+    e. Read
+    f. Send total Frames
+    g. Send shutter time
+    h. Read x 3 (x steps, y steps, z steps)
+    j. Send 3
+    k. Read
+
+5) Stop Test
+    a. Read
+
 
