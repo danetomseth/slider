@@ -1,0 +1,57 @@
+<TimelapseSimple_A>:
+	BoxLayout:
+		orientation: 'vertical'
+		spacing: 5
+		PageTitle
+    		title: root.page_title
+		BoxLayout:
+			orientation: 'horizontal'
+			padding: 5
+			Label:
+				id: timelapse_duration_label
+				text: root.timelapse_duration
+				font_size: '20sp'
+			BoxLayout:
+				spacing: 10
+				Button:
+					text: "-"
+					on_press: root.set_duration(-1)
+				Button:
+					text: "+"
+					on_press: root.set_duration(1)
+		BoxLayout:
+			orientation: 'horizontal'
+			padding: 5
+			Label:
+				id: timelapse_interval_label
+				text: root.timelapse_interval
+				font_size: '20sp'
+			BoxLayout:
+				spacing: 10
+				Button:
+					text: "-"
+					on_press: root.set_interval(-1)
+				Button:
+					text: "+"
+					on_press: root.set_interval(1)
+				
+		BoxLayout:
+			padding: 5
+			Label:
+				id: clip_duration_label
+				text: root.clip_duration
+				font_size: 20
+			# Button:
+			# 	text: "FIND HOME"
+			# 	on_press: app.find_home_all()
+
+		BoxLayout:
+			orientation: 'horizontal'
+			spacing: 5
+			padding: 5
+			Button:
+				text: 'BACK'
+				on_press: root.manager.current = 'timelapse_main'
+			Button:
+				text: 'NEXT'
+				on_press: root.manager.current = 'timelapse_simpleB'

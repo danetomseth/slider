@@ -1,0 +1,137 @@
+<SlideTab>:
+	orientation: 'vertical'
+	padding: 5
+	spacing: 5
+	Label:
+		text: root.title
+		font_size: '20sp'
+	BoxLayout:
+		padding: 5
+		spacing: 5
+		Label:
+			text: root._set_speed
+			id: set_speed_label
+		Label:
+			text: root._set_direction
+			id: set_direction_label
+		Label:
+			text: root._steps_programmed
+			id: steps_programmed_label
+	BoxLayout:
+		padding: 5
+		spacing: 5
+		Label:
+			text: "ADJ SPEED"
+		Button:
+			text: "SLOWER"
+			on_press: root.adjust_speed(-1)
+		Button:
+			text: "FASTER"
+			on_press: root.adjust_speed(1)
+	BoxLayout:
+		padding: 5
+		spacing: 5
+		Button:
+			text: "CONTROL"
+			on_press: root.control()
+		Button:
+			text: "RAMP"
+			on_press: root.ramp_test()
+		Button:
+			text: "FIND HOME"
+			on_press: root.find_home()
+		Button:
+			text: 'BACK'
+			on_press: root.manager.current = 'home'
+<PanTab>:
+	orientation: 'vertical'
+	padding: 5
+	spacing: 5
+	Label:
+		text: root.title
+		font_size: '20sp'
+	BoxLayout:
+		padding: 5
+		spacing: 5
+		Label:
+			text: root._set_speed
+			id: set_speed_label
+		Label:
+			text: root._set_direction
+			id: set_direction_label
+		Label:
+			text: root._steps_programmed
+			id: steps_programmed_label
+	BoxLayout:
+		padding: 5
+		spacing: 5
+		Label:
+			text: "ADJ SPEED"
+		Button:
+			text: "SLOWER"
+			on_press: root.adjust_speed(-1)
+		Button:
+			text: "FASTER"
+			on_press: root.adjust_speed(1)
+	BoxLayout:
+		padding: 5
+		spacing: 5
+		Button:
+			text: "CONTROL"
+			on_press: root.control()
+		Button:
+			text: "RAMP"
+			on_press: root.ramp_test()
+		Button:
+			text: "FIND HOME"
+			on_press: root.find_home()
+		Button:
+			text: 'BACK'
+			on_press: root.manager.current = 'home'
+
+<TiltTab>:
+	orientation: 'vertical'
+	padding: 5
+	spacing: 5
+	Label:
+		text: root.title
+		font_size: '20sp'
+	BoxLayout:
+		padding: 5
+		spacing: 5
+		Label:
+			text: root._set_speed
+			id: set_speed_label
+		Label:
+			text: root._set_direction
+			id: set_direction_label
+		Label:
+			text: root._steps_programmed
+			id: steps_programmed_label
+	BoxLayout:
+		padding: 5
+		spacing: 5
+		Label:
+			text: "ADJ SPEED"
+		Button:
+			text: "SLOWER"
+			on_press: root.adjust_speed(-1)
+		Button:
+			text: "FASTER"
+			on_press: root.adjust_speed(1)
+	BoxLayout:
+		padding: 5
+		spacing: 5
+		Button:
+			text: "CONTROL"
+			on_press: root.control()
+		Button:
+			text: "RAMP"
+			on_press: root.ramp_test()
+		Button:
+			text: "FIND HOME"
+			on_press: root.find_home()
+		Button:
+			text: 'BACK'
+			on_press: root.manager.current = 'home'
+

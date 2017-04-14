@@ -1,0 +1,34 @@
+<HomeScreen>:
+	BoxLayout:
+		orientation: 'vertical'
+		spacing: 5
+		padding: 5
+		PageTitle
+    		title: root.page_title
+		BoxLayout:
+			spacing: 5
+			padding: 5
+			Button:
+				text: 'TIMELAPSE'
+				font_size: 30
+				on_press: root.manager.current = 'timelapse_main'
+			Button:
+				font_size: 30
+				text: 'LIVE MOTION'
+				on_press: root.manager.current = 'video'
+		BoxLayout:
+			spacing: 5
+			padding: 5
+			Button:
+				font_size: 30
+				text: 'SETTINGS'
+				on_press: root.manager.current = 'settings'
+			Button:
+				font_size: 30
+				text: 'CAMERA'
+				on_press: root.manager.current = 'camera'
+			Button:
+				font_size: 30
+				text: 'EXIT'
+				on_press: app.exit()
+		

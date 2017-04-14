@@ -1,0 +1,63 @@
+<PanoScreen>:
+	main_widget: main_widget
+	movement_btn: movement_btn
+	BoxLayout:
+		orientation: 'vertical'
+		spacing: 5
+		padding: 5
+		PageTitle
+    		title: root.page_title
+    	BoxLayout:
+    		id: main_widget
+			spacing: 5
+			padding: 5
+			Button:
+				text: root.set_point
+				font_size: 35
+				id: movement_btn
+				on_press: root.set_move_points()
+    	BoxLayout:
+			spacing: 5
+			padding: 5
+			size_hint_y: 0.75
+			Label:
+				text: 'TILT DEGREES: ' + str(root.tilt_degrees)
+			BoxLayout:
+				Button:
+					text: '-'
+					on_press: root.set_degrees(-1)
+				Button:
+					text: '+'
+					on_press: root.set_degrees(1)
+		BoxLayout:
+			spacing: 5
+			padding: 5
+			size_hint_y: 0.75
+			Label:
+				text: 'Distance: ' + str(root.subject_distance) +"ft"
+			BoxLayout:
+				Button:
+					text: '-'
+					on_press: root.set_distance(-1)
+				Button:
+					text: '+'
+					on_press: root.set_distance(1)
+		BoxLayout:
+			spacing: 5
+			padding: 5
+			size_hint_y: 0.75
+			Button:
+				text: 'PREVIEW'
+				on_press: root.preview()
+			Button:
+				text: "RUN"
+				on_press: root.run_pano()
+		BoxLayout:
+			spacing: 5
+			padding: 5
+			Button:
+				text: 'BACK'
+				on_press: root.manager.current = 'camera'
+			Button:
+				text: 'FOCUS'
+				on_press: root.manager.current = 'focus'

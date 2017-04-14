@@ -1,0 +1,41 @@
+<FocusScreen>:
+	BoxLayout:
+		orientation: 'vertical'
+		spacing: 5
+		padding: 5
+		PageTitle
+    		title: root.page_title
+    	BoxLayout:
+			spacing: 5
+			padding: 5
+			Button:
+				text: 'Connect'
+				on_press: root.connect()
+			Button:
+				text: 'Read'
+				on_press: root.read()
+			Button:
+				text: 'Disconnect'
+				on_press: root.disconnect()
+    	BoxLayout:
+			spacing: 5
+			padding: 5
+			size_hint_y: 0.75
+			Label:
+				text: 'SHUTTER: ' + str(root.bulb_time)
+			BoxLayout:
+				Button:
+					text: '-'
+					on_press: root.set_shutter(-1)
+				Button:
+					text: '+'
+					on_press: root.set_shutter(1)
+		BoxLayout:
+			spacing: 5
+			padding: 5
+			Button:
+				text: 'BACK'
+				on_press: root.manager.current = 'camera'
+			Button:
+				text: 'PANO'
+				on_press: root.manager.current = 'pano'

@@ -1,0 +1,51 @@
+<TimelapseSimple_C>:
+	progress_widget: progress_widget
+	progress_label: progress_label
+	preview_btn: preview_btn
+	BoxLayout:
+		orientation: 'vertical'
+		spacing: 5
+		padding: 5
+		Label:
+			text: 'TIMELAPSE RUNNING'
+			font_size: '20sp'
+		BoxLayout:
+			id: progress_widget
+			orientation: 'horizontal'
+			Label:
+				id: progress_label
+				text: 'PROGRESS'
+				font_size: '20sp'
+				size_hint: 0.5, 1
+			ProgressBar:
+				max: 100
+				value: root.progress
+		BoxLayout:
+			orientation: 'horizontal'
+			Label:
+				text: 'PICTURES'
+				font_size: '20sp'
+				size_hint: 0.5, 1
+			Label:
+				text: root.total_pictures
+				font_size: '30sp'
+		BoxLayout:
+			orientation: 'horizontal'
+			spacing: 5
+			padding: 5
+			Button:
+				text: 'BACK'
+				on_press: root.manager.current = 'timelapse_simpleB'
+			Button:
+				id: preview_btn
+				text: 'PREVIEW'
+				on_press: root.preview_movement()
+			Button:
+				text: 'START'
+				on_press: root.initiate_program()
+			Button:
+				text: 'CANCEL'
+				on_press: root.cancel_program()
+			Button:
+				text: 'EXIT'
+				on_press: app.exit()

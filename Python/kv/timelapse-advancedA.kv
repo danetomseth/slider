@@ -1,0 +1,17 @@
+<TimelapseAdvanced_A>:
+	BoxLayout:
+		orientation: 'vertical'
+		spacing: 5
+		padding: 5
+		BoxLayout:
+			orientation: 'horizontal'
+			spacing: 5
+			padding: 5
+			Label:
+				text: 'Advanced A'
+			Button:
+				text: 'NEXT'
+				on_press: print("NOT SET")
+			Button:
+				text: 'BACK'
+				on_press: root.manager.current = 'timelapse_main'

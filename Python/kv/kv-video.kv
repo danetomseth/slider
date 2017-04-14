@@ -1,0 +1,22 @@
+#:kivy 1.0.9
+
+<VideoScreen>:
+	BoxLayout:
+		orientation: 'vertical'
+		spacing: 5
+		padding: 5
+		Label:
+			text: 'Video'
+		BoxLayout:
+			spacing: 20
+			padding: 20
+			Button:
+				text: 'FUNC A'
+				on_press: root.function_A()
+			Button:
+				text: 'FUNC B'
+				on_press: root.function_B()
+
+		Button:
+			text: "BACK"
+			on_press: root.manager.current = 'home'

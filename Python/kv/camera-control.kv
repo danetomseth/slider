@@ -1,0 +1,46 @@
+<CameraControl>:
+	mount_btn: mount_btn
+	top_row: top_row
+	BoxLayout:
+		orientation: 'vertical'
+		spacing: 5
+		padding: 5
+		PageTitle
+    		title: root.page_title
+    	BoxLayout:
+    		id: top_row
+			spacing: 5
+			padding: 5
+			Button:
+				id: mount_btn
+				text: 'MOUNT CAMERA'
+				on_press: root.mount_camera()
+			Button:
+				text: 'CONFIG'
+				on_press: root.config()
+    	BoxLayout:
+			spacing: 5
+			padding: 5
+			size_hint_y: 0.75
+			Button:
+				text: 'CAPTURE'
+				on_press: root.capture()
+			Button:
+				text: 'shutter'
+				on_press: root.change_shutter()
+			Button:
+				text: 'Timelapse'
+				on_press: root.run_timelapse()
+			
+		BoxLayout:
+			spacing: 5
+			padding: 5
+			size_hint_y: 0.75
+			Button:
+				text: 'BACK'
+				on_press: root.manager.current = 'camera'
+			Button:
+				text: 'EXIT'
+				on_press: app.exit()
+
+			

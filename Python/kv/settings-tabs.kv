@@ -1,0 +1,239 @@
+<StepMode>:
+	orientation: 'vertical'
+	padding: 5
+	spacing: 5
+	PageTitle
+    	title: root.page_title
+	BoxLayout:
+		padding: 5
+		Label:
+			text: "SLIDE MODE"
+			font_size: 20
+		BoxLayout:
+			ToggleButton:
+				text: '1'
+				group: 'slide_mode'
+				on_press: root.set_slide(1)
+			ToggleButton:
+				text: '1/2'
+				group: 'slide_mode'
+				on_press: root.set_slide(2)
+			ToggleButton:
+				text: '1/4'
+				group: 'slide_mode'
+				on_press: root.set_slide(4)
+			ToggleButton:
+				text: '1/8'
+				group: 'slide_mode'
+				state: 'down'
+				on_press: root.set_slide(8)
+			ToggleButton:
+				text: '1/16'
+				group: 'slide_mode'
+				on_press: root.set_slide(16)
+			ToggleButton:
+				text: '1/32'
+				group: 'slide_mode'
+				on_press: root.set_slide(32)
+	BoxLayout:
+		padding: 5
+		spacing: 5
+		Label:
+			text: "PAN MODE"
+			font_size: 20
+		ToggleButton:
+			text: '1/16'
+			group: 'pan_mode'
+			state: 'down'
+			on_press: root.set_pan(16)
+		ToggleButton:
+			text: '1/32'
+			group: 'pan_mode'
+			on_press: root.set_pan(32)
+	BoxLayout:
+		padding: 5
+		spacing: 5
+		Button:
+			text: "BACK"
+			on_press: root.manager.current = 'home'
+		Button:
+			text: 'EXIT'
+			on_press: app.exit()
+
+<ControlTab>:
+	orientation: 'vertical'
+	padding: 5
+	spacing: 5
+	PageTitle
+    	title: root.page_title
+    BoxLayout:
+    	padding: 5
+    	spacing: 5
+    	ToggleButton:
+    		text: "Connect ARD"
+    		group: 'controller'
+    		on_press: root.connect_arduino()
+
+		ToggleButton:
+			text: "JOYSTICK"
+			group: 'controller'
+			state: "down"
+			on_press: root.set_control_joystick()
+	BoxLayout:
+		padding: 5
+		spacing: 5
+		
+		
+		Button:
+			text: "Recieve Data"
+			on_press: root.recieve_data()
+		Button:
+			text: "Send 1"
+			on_press: root.send_number("1/")
+		Button:
+			text: "Send 2"
+			on_press: root.send_number("2/")
+		Button:
+			text: "Send 3"
+			on_press: root.send_number("3/")
+		
+	BoxLayout:
+		padding: 5
+		spacing: 5
+		Button:
+			text: 'TEST'
+			on_press: root.test()
+		Button:
+			text: 'CALIBRATE'
+			on_press: root.calibrate()
+		Button:
+			text: "BACK"
+			on_press: root.manager.current = 'home'
+		Button:
+			text: 'EXIT'
+			on_press: app.exit()
+
+	
+
+<CameraTab>:
+	orientation: 'vertical'
+	padding: 5
+	spacing: 5
+	PageTitle
+    	title: root.page_title
+    BoxLayout:
+    	padding: 5
+    	spacing: 5
+    	size_hint_y: 0.5
+    	Label:
+    		text: "ISO: " + root.iso
+    	Label:
+    		text: "SHUTTER: " + root.shutter
+    	Label:
+    		text: "APERTURE: " + root.aperture
+	BoxLayout:
+    	padding: 5
+    	spacing: 5
+    	size_hint_y: 0.5
+    	Label:
+    		text: "CAMERA CONTROL"
+    		font_size: 20
+    	ToggleButton:
+    		text: "USB"
+    		group: 'camera'
+    		on_press: root.set_control('usb')
+
+		ToggleButton:
+			text: "REMOTE"
+			group: 'camera'
+			state: "down"
+			on_press: root.set_control("remote")
+	BoxLayout:
+		padding: 5
+		spacing: 5
+		Button:
+			text: "GET OPTIONS"
+			on_press: root.get_config()
+		Button:
+			text: "GET CURRENT"
+			on_press: root.get_current()
+		Button:
+			text: "SHUTTER"
+			on_press: root.get_setting('shutterspeed')
+		Button:
+			text: "APERTURE"
+			on_press: root.get_setting("aperture")
+	BoxLayout:
+		padding: 5
+		spacing: 5
+		Button:
+			text: "ISO -"
+			on_press: root.change_setting('iso', -1)
+		Button:
+			text: "ISO +"
+			on_press: root.change_setting('iso', 1)
+		Button:
+			text: "SHUTTER -"
+			on_press: root.change_setting('shutterspeed', -1)
+		Button:
+			text: "SHUTTER +"
+			on_press: root.change_setting('shutterspeed', 1)
+		Button:
+			text: "APERTURE -"
+			on_press: root.change_setting('aperture', -1)
+		Button:
+			text: "APERTURE +"
+			on_press: root.change_setting('aperture', 1)
+	BoxLayout:
+		padding: 5
+		spacing: 5
+		Button:
+			text: 'TEST'
+			on_press: root.test()
+		Button:
+			text: "BACK"
+			on_press: root.manager.current = 'home'
+		Button:
+			text: 'EXIT'
+			on_press: app.exit()
+
+<MotorsTab>:
+	orientation: 'vertical'
+	padding: 5
+	spacing: 5
+	PageTitle
+    	title: root.page_title
+    BoxLayout:
+    	padding: 5
+    	spacing: 5
+    	Label:
+    		text: "MOTORS"
+    		font_size: 20
+    	Button:
+    		text: 'ENABLE'
+    		on_press: root.enable()
+    	Button:
+    		text: 'DISABLE'
+    		on_press: root.disable()
+    	# Button:
+    	# 	text: 'SLIDE'
+    	# 	on_press: root.slide()
+    	# Button:
+    	# 	text: 'PAN'
+    	# 	on_press: root.pan()
+    	# Button:
+    	# 	text: 'TILT'
+    	# 	on_press: root.tilt()
+    	
+    BoxLayout:
+		padding: 5
+		spacing: 5
+		Button:
+			text: "BACK"
+			on_press: root.manager.current = 'home'
+		Button:
+			text: 'EXIT'
+			on_press: app.exit()
+    	
+    	
+

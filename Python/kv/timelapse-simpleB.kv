@@ -1,0 +1,48 @@
+<TimelapseSimple_B>:
+	main_widget: main_widget
+	# movement_btn: movement_btn
+	start_btn: start_btn
+	end_btn: end_btn
+	BoxLayout:
+		orientation: 'vertical'
+		spacing: 5
+		PageTitle
+    		title: root.page_title
+		BoxLayout:
+			id: main_widget
+			orientation: 'horizontal'
+			padding: 5
+			size_hint: 1, 0.5
+			# Button:
+			# 	text: root.set_point
+			# 	font_size: 35
+			# 	id: movement_btn
+			# 	on_press: root.set_move_points()
+			Button:
+				text: "SET END"
+				font_size: 30
+				id: end_btn
+				on_press: root.set_end()
+			Button:
+				text: "SET START"
+				font_size: 30
+				id: start_btn
+				on_press: root.set_start()
+				disabled: True
+		BoxLayout:
+			orientation: 'horizontal'
+			spacing: 5
+			padding: 5
+			size_hint: 1, 0.5 
+			Button:
+				text: 'BACK'
+				font_size: 20
+				on_press: root.manager.current = 'timelapse_simpleA'
+			Button: 
+				text: 'RESET'
+				font_size: 20
+				on_press: root.reset_timelapse()
+			Button:
+				text: 'READY'
+				font_size: 20
+				on_press: root.manager.current = 'timelapse_simpleC'

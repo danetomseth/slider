@@ -1,0 +1,41 @@
+#:kivy 1.0.9
+
+<CameraScreen>:
+	camera_widget: camera_widget
+	id: camera_widget
+	BoxLayout:
+		orientation: 'vertical'
+		spacing: 5
+		padding: 5
+		PageTitle
+    		title: root.page_title
+		BoxLayout:
+			spacing: 5
+			padding: 5
+			Button:
+				text: 'FOCUS STACK'
+				on_press: root.manager.current = 'focus'
+				font_size: 30
+			Button:
+				text: 'PANORAMA'
+				on_press: root.manager.current = 'pano'
+				font_size: 30
+		BoxLayout:
+			spacing: 5
+			padding: 5
+			Button:
+				text: 'CONTROL'
+				on_press: root.manager.current = 'camera_control'
+				font_size: 30
+
+
+		BoxLayout:
+			spacing: 5
+			padding: 5
+			size_hint_y: 0.5
+			Button:
+				text: "BACK"
+				on_press: root.manager.current = 'home'
+			Button:
+				text: 'EXIT'
+				on_press: app.exit()

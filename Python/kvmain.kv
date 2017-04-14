@@ -1,0 +1,121 @@
+#:kivy 1.0.9
+#:include ./kv/kv-home.kv
+#:include ./kv/settings-tabs.kv
+#:include ./kv/settings.kv
+#:include ./kv/kv-video.kv
+
+#:include ./kv/timelapse-main.kv
+#:include ./kv/timelapse-simpleA.kv
+#:include ./kv/timelapse-simpleB.kv
+#:include ./kv/timelapse-simpleC.kv
+
+#:include ./kv/timelapse-advancedA.kv
+
+#:include ./kv/kv-camera.kv
+#:include ./kv/camera-focus.kv
+#:include ./kv/camera-pano.kv
+#:include ./kv/camera-control.kv
+#:include ./kv/kv-title.kv
+
+
+
+
+		
+
+
+
+<Manager>:
+	canvas.before:
+		Color:
+			rgb: .2, .2, .2
+		Rectangle:
+			size: self.size
+	id: screen_manager
+	home_screen: home_screen
+	video_screen: video_screen
+	# Live Motion
+
+	# Timelapse
+	timelapse_main: timelapse_main
+	timelapse_simpleA: timelapse_simpleA
+	timelapse_simpleB: timelapse_simpleB
+	timelapse_simpleC: timelapse_simpleC
+
+	timelapse_advancedA: timelapse_advancedA 
+
+
+	# Settings
+	# control_screen: control_screen
+
+	camera_screen: camera_screen
+	pano_screen: pano_screen
+	focus_screen: focus_screen
+	camera_control: camera_control
+	settings_screen: settings_screen
+
+	HomeScreen:
+		id: home_screen
+		name: 'home'
+		manager: screen_manager
+	CameraScreen:
+		id: camera_screen
+		name: 'camera'
+		manager: screen_manager
+	
+	SettingsScreen:
+		id: settings_screen
+		name: 'settings'
+		manager: screen_manager
+
+	VideoScreen:
+		id: video_screen
+		name: 'video'
+		manager: screen_manager
+
+
+	CameraControl:
+		id: camera_control
+		name: 'camera_control'
+		manager: screen_manager
+
+	PanoScreen:
+		id: pano_screen
+		name: 'pano'
+		manager: screen_manager
+
+	FocusScreen:
+		id: focus_screen
+		name: 'focus'
+		manager: screen_manager
+
+# Timelapse
+	TimelapseMain:
+		id: timelapse_main
+		name: 'timelapse_main'
+		manager: screen_manager
+
+	TimelapseSimple_A:
+		id: timelapse_simpleA
+		name: 'timelapse_simpleA'
+		manager: screen_manager
+
+	TimelapseSimple_B:
+		id: timelapse_simpleB
+		name: 'timelapse_simpleB'
+		manager: screen_manager
+
+
+	TimelapseSimple_C:
+		id: timelapse_simpleC
+		name: 'timelapse_simpleC'
+		manager: screen_manager
+
+	TimelapseAdvanced_A:
+		id: timelapse_advancedA
+		name: 'timelapse_advancedA'
+		manager: screen_manager
+        
+
+
+
+	
