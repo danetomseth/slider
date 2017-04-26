@@ -94,7 +94,9 @@ class CameraTab(BoxLayout):
     def display_settings(self):
         self.shutter = camera.settings['shutterspeed']
         self.iso = camera.settings['iso']
-        self.aperture = camera.settings['aperture']    
+        self.aperture = camera.settings['aperture']
+        if self.shutter != '---':
+            camera.set_shutter_speed(self.shutter)   
 
     def test(self):
         camera.trigger()

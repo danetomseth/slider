@@ -82,7 +82,6 @@ class MotorObj(object):
         # PANO SETTINGS
         self.pano_programmed_steps = 0
 
-        self.read = self.read_debounce
         
 
         self.set_direction(self.home_direction) 

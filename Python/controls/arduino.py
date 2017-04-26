@@ -1,13 +1,16 @@
 import time 
 import serial
-import stepper
+from cameraClass import camera
+
 
 ser = None
 
 def connect():
     global ser
     try:
-        ser = serial.Serial('/dev/ttyACM0', 9600, timeout=0.5)
+        # ser = serial.Serial('/dev/ttyACM0', 9600, timeout=0.5)
+        ser = serial.Serial('/dev/cu.usbmodem1421', 9600)
+        # ser = serial.Serial('/dev/tty.usbserial', 9600)
         print("ARDUINO CONNECTED")
     except:
         print("ARDUINO ERROR")
@@ -19,6 +22,7 @@ def recieve_data():
         response = ser.readline()
         print(response)
     print("FINISHED")
+
 def first_item():
     ser.write('1x')
     # while stepper.stop() == False:
@@ -61,4 +65,55 @@ def send_number(num):
 5) Stop Test
     a. Read
 
+"""
+def live_control():
+    ser.write("1/")
+    res = ser.readline()
+    print(res)
+
+def single_axis(axis):
+    ser.write("2/")
+    print(ser.readline())
+    if axis == 'x':
+        print("SLIDE")
+        ser.write("1/")
+    elif axis == 'y':
+        ser.write("2/")
+        print("PAN")
+    else:
+        ser.write("3/")
+        print("TILT")
+
+def picture():
+    ser.write("3/")
+    print(ser.readline())
+
+def timelapse_mode():
+    ser.write("4/")
+    print(ser.readline())
+
+def set_timelapse_end():
+    ser.write("1/")
+    print(ser.readline())
+
+def set_timelapse_start():
+    programmed_steps = [0,0,0];
+    total_frames = str(camera.total_pictures) + "/"
+    interval_time = str(camera.timelapse_interval) + "/" #$$ replace with camera interval (delay in ms)
+    ser.write("2/")
+    print(ser.readline())
+    ser.write(total_frames) #Send total frames of timelapse
+    ser.write(interval_time) #send shuttertime
+    programmed_steps[0] = ser.readline()
+    programmed_steps[1] = ser.readline()
+    programmed_steps[2] = ser.readline()
+    return programmed_steps
+
+def start_timelapse():
+    ser.write("4/")
+    print(ser.readline())
+
+
+def timelapse_step():
+    ser.write("8/")
 

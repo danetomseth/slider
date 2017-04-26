@@ -19,7 +19,10 @@ import sys
 sys.path.append('./controls')
 import stepper
 
+
+
 from stepper import camera
+import arduino
 
 class TimelapseMain(Screen):
     page_title = StringProperty('TIMELAPSE')
@@ -86,15 +89,15 @@ class TimelapseSimple_B(Screen):
     def reset_timelapse(self):
         self.end_set = False
         self.set_point = "SET END"
-        stepper.reset_timelapse()
+        print("N/A")
 
     def set_move_points(self):
         if self.end_set == False:
-            stepper.set_timelapse_end()
+            arduino.set_timelapse_end()
             self.set_point = "SET START"
             self.end_set = True
         else:
-            motors = stepper.set_timelapse_start()
+            motors = arduino.set_timelapse_start()
             self.end_set = False
             self.main_widget.remove_widget(self.movement_btn)
             for motor in motors:
@@ -102,16 +105,17 @@ class TimelapseSimple_B(Screen):
                 self.main_widget.add_widget(Label(text=labelText, font_size=30))
 
     def set_end(self):
-        stepper.set_timelapse_end()
+        arduino.timelapse_mode()
+        arduino.set_timelapse_end()
         self.end_btn.disabled = True
         self.start_btn.disabled = False
 
     def set_start(self):
-        motors = stepper.set_timelapse_start()
+        motors = arduino.set_timelapse_start()
         self.main_widget.remove_widget(self.start_btn)
         self.main_widget.remove_widget(self.end_btn)
         for motor in motors:
-            labelText = motor.name + ": " + str(motor.programmed_steps)
+            labelText = "Steps: " + str(motor)
             self.main_widget.add_widget(Label(text=labelText, font_size=30))
 
 
@@ -173,6 +177,10 @@ class TimelapseSimple_C(Screen):
         self.progress_widget.remove_widget(self.progress_label)
         self.progress_widget.add_widget(Label(text="FINISHED", font_size="20sp"))
         self.total_pictures = "FINISHED"
+
+
+    def start_timelapse(self):
+        arduino.start_timelapse()
 
 
 

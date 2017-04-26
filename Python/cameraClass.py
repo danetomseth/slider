@@ -41,6 +41,19 @@ class CameraObj(object):
             print("FAILED")
             return False
 
+    def set_shutter_speed(self, shutter):
+      new_speed = 1000.0
+      split_str = shutter.split('/')
+      print("STRING:  ")
+      print(split_str)
+      if len(split_str) > 1: 
+        new_speed = (1.0 / float(split_str[1])) * 1000.0
+      else:
+        new_speed = float(shutter) * 1000.0
+      
+      print(str(new_speed))
+
+      # self.shutter_time = new_speed
 
     def set_timelapse(self, duration, interval):
         # duration in min
