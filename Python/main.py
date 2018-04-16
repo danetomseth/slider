@@ -27,8 +27,7 @@ import time
 sys.path.append('./pages')
 sys.path.append('./controls')
 sys.path.append("/Users/danetomseth/Library/Python/2.7/lib/python/site-packages")
-print(sys.path)
-print(os.path)
+
 
 import home
 import stepper

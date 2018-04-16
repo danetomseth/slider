@@ -7,6 +7,7 @@ import subprocess
 
 from wrappers import GPhoto
 import gphoto2 as gp
+# import gphoto2cffi as gp
 
 camera_wrapper = GPhoto(subprocess)
 
