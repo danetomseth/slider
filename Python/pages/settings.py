@@ -113,28 +113,9 @@ class MotorsTab(BoxLayout):
     def disable(self):
         stepper.disable_all()
 
-    # def slide(self):
-    #     arduino.slide()
 
-    # def pan(self):
-    #     arduino.pan()
+    
 
-    # def tilt(self):
-    #     arduino.tilt()
-
-    # def second_item(self):
-    #     speed_str = str(self.speed) + "x"
-    #     arduino.second_item(speed_str)
-
-    # def increase(self):
-    #     self.speed = self.speed / 5
-
-    # def fast(self):
-    #     arduino.fast()
-
-
-    # def stop(self):
-    #     arduino.stop()
 
 
 

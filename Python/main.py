@@ -3,6 +3,9 @@
 from kivy.config import Config
 Config.set('kivy', 'log_level', 'warning')
 Config.write()
+import os.path
+import sys
+
 
 from kivy.uix.accordion import Accordion, AccordionItem
 from kivy.uix.screenmanager import ScreenManager, Screen
@@ -23,6 +26,9 @@ import time
 
 sys.path.append('./pages')
 sys.path.append('./controls')
+sys.path.append("/Users/danetomseth/Library/Python/2.7/lib/python/site-packages")
+print(sys.path)
+print(os.path)
 
 import home
 import stepper

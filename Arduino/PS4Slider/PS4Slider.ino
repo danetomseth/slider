@@ -1,3 +1,29 @@
+#include <PS4BT.h>
+#include <usbhub.h>
+
+// Satisfy the IDE, which needs to see the include statment in the ino too.
+#ifdef dobogusinclude
+#include <spi4teensy3.h>
+#include <SPI.h>
+#endif
+
+USB Usb;
+//USBHub Hub1(&Usb); // Some dongles have a hub inside
+BTD Btd(&Usb); // You have to create the Bluetooth Dongle instance like so
+
+/* You can create the instance of the PS4BT class in two ways */
+// This will start an inquiry and then pair with the PS4 controller - you only have to do this once
+// You will need to hold down the PS and Share button at the same time, the PS4 controller will then start to blink rapidly indicating that it is in pairing mode
+PS4BT PS4(&Btd, PAIR);
+
+// After that you can simply create the instance like so and then press the PS button on the device
+//PS4BT PS4(&Btd);
+
+bool printAngle, printTouch;
+uint8_t oldL2Value, oldR2Value;
+
+
+
 #include <Axis.h>
 #include <AccelStepper.h>
 //#include <MultiStepper.h>
@@ -45,11 +71,12 @@ long total_steps[] = {0, 0, 0};
 
 
 
-
+// PS4 Constants 
+float ANALOG_NEUTRAL = 122.5;
+float ANALOG_OFFSET = 10.0;
 
 // Joystick Controls & INPUTS
-#define analog_neutral 512
-#define analog_zero 30
+
 #define stop_button 40
 #define shutter 43
 #define analogX 10
@@ -57,7 +84,6 @@ long total_steps[] = {0, 0, 0};
 #define analogZ 9
 #define enable_pin 8
 
-int joystick_pins[] = {analogX, analogY, analogZ};
 static int analogRate = 1000;
 
 
@@ -81,7 +107,15 @@ Axis z_Axis(z_limit, 1.0, 8, 'z');
 
 void setup()
 {
-  Serial.begin(9600);
+  Serial.begin(115200);
+  #if !defined(__MIPSEL__)
+    while (!Serial); // Wait for serial port to connect - used on Leonardo, Teensy and other boards with built-in USB CDC serial connection
+  #endif
+    if (Usb.Init() == -1) {
+      Serial.print(F("\r\nOSC did not start"));
+      while (1); // Halt
+    }
+    Serial.print(F("\r\nPS4 Bluetooth Library Started"));
   pinMode(enable_pin, OUTPUT);
   pinMode(shutter, OUTPUT);
   pinMode(stop_button, INPUT);
@@ -102,33 +136,50 @@ void setup()
 }
 
 void loop() {
-
+  Usb.Task();
+  if (PS4.connected()) {
   getSerial();
   switch(serialdata) {
     /* Motor Control */
-    case 100: {
+    case 100: { // Live Control
+
+    }
+
+    case 101: { // Select Motor
+
+    }
+
+    case 102: { // Control X
+
+    }
+
+    case 103: { // Control Y
+
+    }
+
+    case 104: { // Control Z
 
     }
 
     /* Timelapse Control */
-    case 1: { /* Simple Live Control */
+    case 201: { /* Simple Live Control */
       Serial.println("LIVE CONTROL");
       liveControl();
       break;
     }
 
-    case 2: { /* Single Axis Control */
+    case 202: { /* Single Axis Control */
       Serial.println("SINGLE AXIS");
       break;
     }
 
-    case 3: {
+    case 203: {
       Serial.println("PICTURE");
       takePicture();
       break;
     }
 
-    case 4: { /* Timelapse Program */
+    case 204: { /* Timelapse Program */
       Serial.println("TIMELAPSE");
       while(!EXIT) {
         getSerial();
@@ -184,43 +235,55 @@ void loop() {
 
     
 
-    case 5: {
+    case 205: {
       if(TIMELAPSE_READY) {
         timelapseStep();
       }
       break;
     }
 
-    case 6: {
+    case 206: {
       Serial.println("ASYNC MOVE");
       total_steps[0] = stepperX.currentPosition() * -1;
       total_steps[1] = stepperY.currentPosition() * -1;
       total_steps[2] = stepperZ.currentPosition() * -1;
-      moveAll(total_steps[0], total_steps[1], total_steps[2]);
+      // moveAll(total_steps[0], total_steps[1], total_steps[2]);
       break;
     }
-    case 7: {
+    case 207: {
       Serial.println("MOVE HOME");
       
-      moveAllTo(0,0,0);
+      // moveAllTo(0,0,0);
       break;
     }
-    case 8: {
+    case 208: {
       printStepCounts();
 
       break;
     }
 
-    case 9: {
+    case 209: {
       zeroTimelapse();
       printStepCounts();
 
       break;
     }
 
+
+    /* Camera Control */
+    
+    case 300: { // Trigger Camera
+
+    }
+    
     /* Panorama Control */
 
+    case 400: {
+
+    }
+
   }
+}
 }
 
 
@@ -323,10 +386,12 @@ void pi_timelapseStep() {
 
 
 void liveControl() {
+
   int analog_counter = analogRate;
   enableMotors();
 
   while(1) {
+    Usb.Task();
     if (analog_counter > 0) { //read analog when rate is zero
       analog_counter--;
     }
@@ -334,14 +399,18 @@ void liveControl() {
     else {
       analog_counter = 1000; // reset analog read count
 
-      if(stop()) { // Exit program if stop button is pressed
+      if(PS4.getButtonClick(TRIANGLE)) { // Exit program if stop button is pressed
         break;
+      }
+
+      if(PS4.getButtonClick(R1)) {
+        takePicture();
       }
       // Give the stepper a chance to step if it needs to
       runMotors();
 
       // Read the joystick for each channel (from 0 to 1023)
-      readJoystick();
+      readAll();
 
       // Update the stepper to run at this new speed
       updateSpeeds();
@@ -351,6 +420,14 @@ void liveControl() {
 }
 disableMotors();
 }
+
+
+void readAll() {
+  readSpeed(x_Axis.name);
+  readSpeed(y_Axis.name);
+  readSpeed(z_Axis.name);
+}
+
 
 void runMotors() {
   stepperY.runSpeed();
@@ -366,33 +443,46 @@ void updateSpeeds() {
   stepperZ.setSpeed(current_speed[2]);
 }
 
-void readJoystick() {
+void readSpeed(char read_axis) {
   // Read the values from joystick and assign mapped speed to the current speed arrar
-  int motor;
-  for(motor = 0; motor < 3; motor++) {
-    current_speed[motor] = mapSpeed(joystick_pins[motor]);
+  long read_speed;
+  
+  if(read_axis == 'x') {
+    read_speed = PS4.getAnalogHat(LeftHatX);
+    current_speed[0] = read_speed;
   }
+  else if(read_axis == 'y') {
+    read_speed = PS4.getAnalogHat(RightHatX);
+    current_speed[1] = read_speed;
+  }
+  else if(read_axis == 'z') {
+    read_speed = PS4.getAnalogHat(RightHatY);
+    current_speed[2] = read_speed;
+  }
+  else {
+    read_speed = 0;
+  }
+
 
 }
 
 
-long mapSpeed(int analogPin) {
+long mapSpeed(float read_val) {
     // Scale the pot's value from min to max speeds
-    int read_val = analogRead(analogPin);
     long set_speed;
     static char sign = 0;
     float read_diff = 0.0;
-    if(read_val > (analog_neutral - analog_zero) && read_val < (analog_neutral + analog_zero)) {
+    if(read_val > (ANALOG_NEUTRAL - ANALOG_OFFSET) && read_val < (ANALOG_NEUTRAL + ANALOG_OFFSET)) {
       return 0.0;
     }
-    else if(read_val < analog_neutral) {
+    else if(read_val < ANALOG_NEUTRAL) {
       sign = -1;
-      read_diff = (analog_neutral - analog_zero) - read_val;
+      read_diff = (ANALOG_NEUTRAL - ANALOG_OFFSET) - read_val;
       set_speed = sign * ((read_diff/512.0) * (MAX_SPEED - MIN_SPEED)) + MIN_SPEED;
     }
     else {
       sign = 1;
-      read_diff = read_val - (analog_neutral - analog_zero);
+      read_diff = read_val - (ANALOG_NEUTRAL - ANALOG_OFFSET);
       set_speed = sign * ((read_diff/512.0) * (MAX_SPEED - MIN_SPEED)) + MIN_SPEED;
     }
     return set_speed; 
@@ -414,9 +504,7 @@ void togglePower() {
   steppers_enabled = !steppers_enabled;
 }
 
-bool stop() {
-  return digitalRead(stop_button);
-}
+
 
 
 void takePicture() {
@@ -442,70 +530,22 @@ void zeroPosition() {
   stepperZ.setCurrentPosition(0);
 }
 
-void moveAll(long x_steps, long y_steps, long z_steps) {
-  int motor_count = 1;
-  Serial.println("STEPS");
-  Serial.println(x_steps);
-  Serial.println(y_steps);
-  Serial.println(z_steps);
-  stepperX.move(x_steps);
-  stepperY.move(y_steps);
-  stepperZ.move(z_steps);
-  stepperX.setSpeed(3000);
-  stepperY.setSpeed(3000);
-  stepperZ.setSpeed(3000);
-  enableMotors();
-  while(motor_count > 0) {
-    motor_count = 0;
-    if(stepperX.run()) {
-      motor_count++;
-    }
-    if(stepperY.run()) {
-      motor_count++;
-    }
-    if(stepperZ.run()) {
-      motor_count++;
-    }
-    if(stop()) {
-      break;
-    }
+
+bool stop() {
+  Usb.Task();
+  if(PS4.getButtonClick(TRIANGLE)) {
+    return true;
   }
-  disableMotors();
-  Serial.println("DONE");
+  else {
+    return false;
+  }
 }
 
-void moveAllTo(long x_steps, long y_steps, long z_steps) {
-  int motor_count = 1;
-  
-  stepperX.moveTo(x_steps);
-  stepperY.moveTo(y_steps);
-  stepperZ.moveTo(z_steps);
-  stepperX.setSpeed(3000);
-  stepperY.setSpeed(3000);
-  stepperZ.setSpeed(3000);
-  enableMotors();
-  while(motor_count > 0) {
-    motor_count = 0;
-    Serial.println(stepperX.distanceToGo());
-    if(stepperX.currentPosition() != 0) {
-      stepperX.run();
-      motor_count++;
-    }
-    if(stepperY.currentPosition() != 0) {
-      stepperY.run();
-      motor_count++;
-    }
-    if(stepperZ.currentPosition() != 0) {
-      stepperZ.run();
-      motor_count++;
-    }
-    if(stop()) {
-      break;
-    }
-  }
-  disableMotors();
-  Serial.println("DONE");
-}
+
+
+
+
+
 
 
 
