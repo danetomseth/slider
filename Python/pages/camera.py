@@ -141,23 +141,92 @@ class PanoScreen(Screen):
 
 class FocusScreen(Screen):
     page_title = StringProperty('FOCUS STACK')
-    bulb_time = NumericProperty(0.5)
+    stack_count = NumericProperty(999)
     def __init__(self, **kwargs):
         super(FocusScreen, self).__init__(**kwargs)
+        self.start_set = False
+        self.pictures_taken = 0
+        self.focus_interval_label = "MEDIUM"
+        self.near_interval = 1
+        self.far_interval = 5
 
-    def set_shutter(self, direction):
-        if direction < 0:
-            if self.bulb_time > 0:
-                self.bulb_time = self.bulb_time * 0.9
+    def set_near(self):
+        print("READY")
+
+    def set_far(self):
+        self.stack_count = 0
+        self.start_set = True
+        self.ids["far_btn"].disabled = True
+        self.ids["near_btn"].disabled = False
+        
+
+    def trigger(self):
+        camera.trigger()
+        
+
+    def activate_viewfinder(self):
+        camera.activate_viewfinder()
+
+    def change_focus(self, direction):
+        if self.start_set:
+            if direction > 0:
+                self.stack_count -= 1
+            else:
+                self.stack_count += 1
+        
+        if direction > 0:
+            camera.change_focus(self.far_interval)
         else:
-            self.bulb_time = self.bulb_time * 1.1
+            camera.change_focus(self.near_interval)
 
-    def run_bulb(self):
-        for x in range(5):
-            camera.bulb(self.bulb_time)
+    def connect(self):
+        camera.mode('usb')
 
-    def test_bulb(self):
-        camera.bulb(self.bulb_time)
+    def set_focus_interval(self, size):
+        if size == "SM":
+            self.focus_interval_label = "SMALL"
+            self.near_interval = 0
+            self.far_interval = 4
+        elif size == "MD":
+            self.focus_interval_label = "MEDIUM"
+            self.near_interval = 1
+            self.far_interval = 5
+        else:
+            self.focus_interval_label = "LARGE"
+            self.near_interval = 2
+            self.far_interval = 6
+
+    def focus_step(self, dt):
+        camera.trigger()
+        time.sleep(1)
+        camera.change_focus(self.far_interval)
+        print("FOCUS")
+        self.stack_count -= 1
+        if self.stack_count < 1:
+            self.program_interval.cancel()
+            time.sleep(1)
+            camera.trigger()
+            
+            self.stop()
+
+    def picture_step(self, dt):
+        time.sleep(2)
+        camera.trigger()
+        time.sleep(2)
+        
+
+    def start(self):
+        # camera.trigger()
+      
+        # self.picture_interval = Clock.schedule_interval(self.picture_step, 3)
+        # time.sleep(2)
+        self.program_interval = Clock.schedule_interval(self.focus_step, 3)
+
+    def stop(self):
+        self.program_interval.cancel()
+        self.stack_count = 0;
+        self.start_set = False
+
 
     
 

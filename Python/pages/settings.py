@@ -87,6 +87,15 @@ class CameraTab(BoxLayout):
         camera.get_setting('aperture')
         self.display_settings()
 
+    def focus(self):
+        camera.get_setting('manualfocusdrive')
+
+    def activate_viewfinder(self):
+        camera.activate_viewfinder()
+
+    def change_focus(self, direction):
+        camera.change_focus(direction)
+
     def change_setting(self, setting, direction):
         camera.change_setting(setting, direction) 
         self.display_settings() 

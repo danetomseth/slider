@@ -9,6 +9,10 @@
 			spacing: 5
 			padding: 5
 			Button:
+				font_size: 30
+				text: 'CAMERA CONTROL'
+				on_press: root.manager.current = 'camera'
+			Button:
 				text: 'TIMELAPSE'
 				font_size: 30
 				on_press: root.manager.current = 'timelapse_main'
@@ -17,16 +21,17 @@
 				text: 'LIVE MOTION'
 				on_press: root.manager.current = 'video'
 		BoxLayout:
+			size_hint_y: 0.5
+
+		BoxLayout:
 			spacing: 5
 			padding: 5
+			
 			Button:
 				font_size: 30
 				text: 'SETTINGS'
 				on_press: root.manager.current = 'settings'
-			Button:
-				font_size: 30
-				text: 'CAMERA'
-				on_press: root.manager.current = 'camera'
+			
 			Button:
 				font_size: 30
 				text: 'EXIT'

@@ -157,11 +157,11 @@
 			text: "GET CURRENT"
 			on_press: root.get_current()
 		Button:
-			text: "SHUTTER"
-			on_press: root.get_setting('shutterspeed')
+			text: "FOCUS"
+			on_press: root.get_setting('manualfocusdrive')
 		Button:
-			text: "APERTURE"
-			on_press: root.get_setting("aperture")
+			text: "VIEWFINDER"
+			on_press: root.activate_viewfinder()
 	BoxLayout:
 		padding: 5
 		spacing: 5
@@ -183,6 +183,28 @@
 		Button:
 			text: "APERTURE +"
 			on_press: root.change_setting('aperture', 1)
+	
+	BoxLayout:
+		padding: 5
+		spacing: 5
+		Button:
+			text: "FOCUS <<<"
+			on_press: root.change_focus(2)
+		Button:
+			text: "FOCUS <<"
+			on_press: root.change_focus(1)
+		Button:
+			text: "FOCUS <"
+			on_press: root.change_focus(0)
+		Button:
+			text: "FOCUS >"
+			on_press: root.change_focus(4)
+		Button:
+			text: "FOCUS >>"
+			on_press: root.change_focus(5)
+		Button:
+			text: "FOCUS >>>"
+			on_press: root.change_focus(6)
 	BoxLayout:
 		padding: 5
 		spacing: 5

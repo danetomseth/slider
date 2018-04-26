@@ -10,6 +10,7 @@ import math
 
 joystick = 0
 
+
 slide_pins = [17, 4, 27] #[step, dir, enable]
 pan_pins = [23, 24, 25] #[step, dir, enable]
 tilt_pins = [20, 21, 12] #[step, dir, enable]
@@ -337,6 +338,7 @@ def pano_preview():
         pass
         # tilt step
     tilt.disable()
+
 
 
 def run_pano():

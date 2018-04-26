@@ -25,6 +25,8 @@ class CameraObj(object):
         self.camera = None
         self.trigger = self.remote_trigger
 
+        self.viewfinder_open = False
+
         self.set_timelapse(self.timelapse_duration, self.timelapse_interval)
         self.settings = {'shutterspeed': "---", 'aperture': "---", 'iso': "---"}
         self.settings_index = {'shutterspeed': 0, 'aperture': 0, 'iso': 0}
@@ -66,8 +68,11 @@ class CameraObj(object):
 
 
     def get_config(self):
-        camera_wrapper.get_shutter_speeds()
-        camera_wrapper.get_isos()
+        try:
+          camera_wrapper.get_shutter_speeds()
+          camera_wrapper.get_isos()
+        except:
+          print("FAILED TO GET SETTINGS")
 
     def reset_timelapse(self):
         self.total_pictures = int((self.timelapse_duration * 60) / self.timelapse_interval)
@@ -107,10 +112,15 @@ class CameraObj(object):
           self.timelapse_interval = 0.001
 
     def usb_trigger(self):
-        self.camera.trigger_capture(self.context)
+        try:
+          print("TRIGGER")
+          self.camera.trigger_capture(self.context)
+        except:
+          print("FAILED")
 
     def remote_trigger(self):
         # Trigger Camera
+        print("REMOTE TRIGGER")
         pass
 
     def timelapse_picture(self):
@@ -138,8 +148,11 @@ class CameraObj(object):
     def get_setting(self, setting_name):
         try:
             setting = gp.check_result(gp.gp_widget_get_child_by_name(self.config, setting_name))
+
             current = setting.get_value()
+            print(current)
             total_values = setting.count_choices()
+            print(total_values)
             self.settings[setting_name] = current
             
             for x in range(total_values):
@@ -154,6 +167,36 @@ class CameraObj(object):
         except:
             print("FAILED")
             return "FAILED"
+
+    def activate_viewfinder(self):
+        try:
+          setting = gp.check_result(gp.gp_widget_get_child_by_name(self.config, 'viewfinder'))
+          if self.viewfinder_open == False:
+            print("OPEN")
+            gp.check_result(gp.gp_widget_set_value(setting, 1))
+            self.viewfinder_open = True
+          else:
+            print("CLOSED")
+            gp.check_result(gp.gp_widget_set_value(setting, 0))
+            self.viewfinder_open = False
+          gp.check_result(gp.gp_camera_set_config(self.camera, self.config, self.context))
+          print("SUCCESS")
+        except:
+          print("FAILED")
+
+    def change_focus(self, direction):
+        try:
+
+          setting = gp.check_result(gp.gp_widget_get_child_by_name(self.config, 'manualfocusdrive'))
+          current = setting.get_value()
+          value = gp.check_result(gp.gp_widget_get_choice(setting, direction))
+          gp.check_result(gp.gp_widget_set_value(setting, value))
+          gp.check_result(gp.gp_camera_set_config(self.camera, self.config, self.context))
+          value = gp.check_result(gp.gp_widget_get_choice(setting, 3))
+          gp.check_result(gp.gp_widget_set_value(setting, value))
+          gp.check_result(gp.gp_camera_set_config(self.camera, self.config, self.context))
+        except:
+          print("FAILED")
 
     def change_setting(self, setting_name, direction):
         if direction < 0:
@@ -172,18 +215,21 @@ class CameraObj(object):
             print("FAILED")
 
     def get_all_settings(self):
-        options = self.camera.get_config(self.context)
-        print(options)
-        child_count = options.count_children()
-        if child_count < 1:
-            print('no children')
-            return
-        for n in range(child_count):
-            child = options.get_child(n)
-            label = '{} ({})'.format(child.get_label(), child.get_name())
-            print(label)
-            self.list_children(child)
-            print("-----------")
+        try:
+          options = self.camera.get_config(self.context)
+          print(options)
+          child_count = options.count_children()
+          if child_count < 1:
+              print('no children')
+              return
+          for n in range(child_count):
+              child = options.get_child(n)
+              label = '{} ({})'.format(child.get_label(), child.get_name())
+              print(label)
+              self.list_children(child)
+              print("-----------")
+        except:
+          print("FAILED")
 
     def list_children(self, child):
         count = child.count_children()

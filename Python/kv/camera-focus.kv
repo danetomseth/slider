@@ -9,22 +9,83 @@
     	BoxLayout:
 			spacing: 5
 			padding: 5
-			size_hint_y: 0.75
-			Label:
-				text: 'SHUTTER: ' + str(root.bulb_time)
+			size_hint_y: 0.5
+			Button:
+				id: far_btn
+				text: 'SET FAR'
+				on_press: root.set_far()
+			Button:
+				id: near_btn
+				text: 'SET NEAR'
+				on_press: root.set_near()
+				disabled: True
+	
+			Button:
+				text: "CONNECT"
+				on_press: root.connect()
+
+			Button:
+				text: "VIEWFINDER"
+				on_press: root.activate_viewfinder()
+
+		BoxLayout:
+			size_hint_y: 0.25	
+
+		BoxLayout:
+			padding: 5
+			spacing: 5
+			size_hint_y: 0.5
+			Label: 
+				text: "STEP SIZE: " + root.focus_interval_label
+			ToggleButton:
+				text: '>'
+				group: 'stepSize'
+				on_press: root.set_focus_interval("SM")
+			ToggleButton:
+				text: '>>'
+				group: 'stepSize'
+				on_press: root.set_focus_interval("MD")
+				state: "down"
+			ToggleButton:
+				text: '>>>'
+				group: 'stepSize'
+				on_press: root.set_focus_interval("LG")
+		BoxLayout:
+			size_hint_y: 0.25	
+		
+		BoxLayout:
+			padding: 5
+			spacing: 5
+			size_hint_y: 0.5
 			BoxLayout:
+				padding: 5
+				spacing: 5
 				Button:
-					text: '-'
-					on_press: root.set_shutter(-1)
+					text: "FOCUS <"
+					on_press: root.change_focus(-1)
 				Button:
-					text: '+'
-					on_press: root.set_shutter(1)
+					text: "FOCUS >"
+					on_press: root.change_focus(1)
+			Label:
+				text: 'STACK COUNT: ' + str(root.stack_count)
+			
+		
+			
+		BoxLayout:
+			size_hint_y: 0.25
 		BoxLayout:
 			spacing: 5
 			padding: 5
+			size_hint_y: 0.25
+			Button:
+				text: 'START'
+				on_press: root.start()
+			Button:
+				text: 'STOP'
+				on_press: root.stop()
 			Button:
 				text: 'BACK'
 				on_press: root.manager.current = 'camera'
 			Button:
-				text: 'PANO'
-				on_press: root.manager.current = 'pano'
+				text: 'EXIT'
+				on_press: app.exit()
